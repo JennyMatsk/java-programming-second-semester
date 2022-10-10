@@ -29,6 +29,8 @@ public class ImageTileView extends JPanel implements ITileView
     {
         repaint();
     }
+
+    // Отрисовка клетки
     public void drawTile(Graphics2D g)
     {
         g.setColor(getForeground());
@@ -49,6 +51,8 @@ public class ImageTileView extends JPanel implements ITileView
 
     private void drawCenteredString(Graphics2D g, String s, int x, int y)
     {
+        // Рисуем строку с большим шрифтом
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 80));
         FontMetrics fm = g.getFontMetrics();
         int asc = fm.getAscent();
         int desc = fm.getDescent();

@@ -1,8 +1,10 @@
 package lab4;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
-public class Tile //extends JButton
+public class Tile
 {
     private int number;
     public int getNumber() { return this.number; }
@@ -27,20 +29,12 @@ public class Tile //extends JButton
         this.number = number;
         this.position = position;
         owningBoard = board;
-       // tileView = new SwingButtonTileView();
         tileView = new ImageTileView();
         tileView.initView(this);
         tileView.updateView(number);
-//        this.addActionListener(new ActionListener()
-//        {
-//            @Override
-//            public void actionPerformed(ActionEvent e)
-//            {
-//                tryMoveTileOnBoard();
-//            }
-//        });
     }
 
+    // Попытаться передвинуть клетку при нажатии мышки
     public boolean tryMoveTileOnBoard()
     {
         if (owningBoard.tryMoveTile(Tile.this))
@@ -51,6 +45,7 @@ public class Tile //extends JButton
         return false;
     }
 
+    // Проверка, является ли предоставленная клетка соседом
     public boolean isNeighbour(Tile tile)
     {
         if (tile.getPosition().equals(new Point(position.x + 1, position.y)) ||
@@ -63,6 +58,21 @@ public class Tile //extends JButton
         return false;
     }
 
+    // Находим список доступных для перемещения клеток
+    public ArrayList<Integer> findAvailableMovements() {
+        ArrayList<Integer> availableMove = new ArrayList<>();
+        availableMove.add(KeyEvent.VK_LEFT);
+        availableMove.add(KeyEvent.VK_UP);
+        availableMove.add(KeyEvent.VK_RIGHT);
+        availableMove.add(KeyEvent.VK_DOWN);
+        if (this.getPosition().y == 0) availableMove.remove(Integer.valueOf(KeyEvent.VK_RIGHT));
+        if (this.getPosition().x == 0) availableMove.remove(Integer.valueOf(KeyEvent.VK_DOWN));
+        if (this.getPosition().y == 3) availableMove.remove(Integer.valueOf(KeyEvent.VK_LEFT));
+        if (this.getPosition().x == 3) availableMove.remove(Integer.valueOf(KeyEvent.VK_UP));
+        return availableMove;
+    }
+
+    // Меняем местами клетки
     public void SwapNumberWithTile(Tile tile)
     {
         if (tile != null)
